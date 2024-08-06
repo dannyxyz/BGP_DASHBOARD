@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BGP Monitoring</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>BGP Monitoring</h1>
+    <form method="post">
+        <label for="host">Host:</label>
+        <input type="text" id="host" name="host" required>
+        <br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Fetch BGP Data">
+    </form>
+
+    {% if peer_status_data %}
+        <h2>BGP Peer Status</h2>
+        <table>
+            <tr>
+                <th>Peer IP</th>
+                <th>AS Number</th>
+                <th>Peer State</th>
+                <th>Admin State</th>
+                <th>Uptime</th>
+            </tr>
+            {% for peer in peer_status_data %}
+            <tr>
+                <td>{{ peer.peer_ip }}</td>
+                <td>{{ peer.as_number }}</td>
+                <td>{{ peer.peer_state }}</td>
+                <td>{{ peer.admin_state }}</td>
+                <td>{{ peer.uptime }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    {% if prefix_routing_data %}
+        <h2>Prefix Routing Information</h2>
+        <table>
+            <tr>
+                <th>Peer IP</th>
+                <th>AS Number</th>
+                <th>Prefixes Received</th>
+                <th>Prefix Changes</th>
+            </tr>
+            {% for peer in prefix_routing_data %}
+            <tr>
+                <td>{{ peer.peer_ip }}</td>
+                <td>{{ peer.as_number }}</td>
+                <td>{{ peer.prefixes_received }}</td>
+                <td>{{ peer.prefix_changes }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</body>
+</html>
